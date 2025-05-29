@@ -27,7 +27,7 @@ public class ProofKeyForCodeExchange {
   public String createAndGetCodeVerifier() {
 
     LOG.debug("Generating PKCE code code verifier");
-    this.codeVerifier = RandomStringUtils.random(64, true, true);
+    this.codeVerifier = RandomStringUtils.secure().next(64, true, true);
     return this.codeVerifier;
   }
 

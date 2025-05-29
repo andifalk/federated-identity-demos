@@ -43,7 +43,11 @@
     </build>
 
     <modules>
+        <module>spring-authorization-server</module>
         <module>auth-code-demo</module>
+        <module>token-exchange/token-exchange-client</module>
+        <module>token-exchange/token-exchange-resource-server</module>
+        <module>token-exchange/target-resource-server</module>
     </modules>
 
     <repositories>

@@ -10,10 +10,10 @@ of this client for production !!!!__
 ## Authorization code grant flow in detail
 
 The [authorization code grant](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1) is the flow mostly used in today's applications adopting OAuth 2.0.
-It is used for resource owner authorization in many internet services like for example [SlideShare](https://www.slideshare.net/) 
+It is used for resource owner authorization in many internet services like, for example, [SlideShare](https://www.slideshare.net/) 
 or [StackOverflow](https://stackoverflow.com/). 
 
-Even for single page applications the latest best-practice drafts by the [IETF](https://datatracker.ietf.org/wg/oauth/documents/) recommend 
+Even for single page applications, the latest best-practice drafts by the [IETF](https://datatracker.ietf.org/wg/oauth/documents/) recommend 
 using this grant (with the addition of [PKCE](https://www.rfc-editor.org/rfc/rfc7636.html)) 
 instead of the [implicit grant](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.2).
 
@@ -27,7 +27,7 @@ To see all details for this grant flow see the corresponding section of the
    Here the user logs in using his credentials (and optionally approves a consent page)
 2. After successfully logging in a 302 HTTP redirect request with the authorization code is being sent through to the browser which redirects
    to the callback entry point provided by the client application 
-3. Now the client application send a token request to the authorization server to exchange
+3. Now the client application sends a token request to the authorization server to exchange
    the authorization code into an access token.
    
 You can see each of these steps in the demo client application of this intro lab.
@@ -44,7 +44,7 @@ To start the demo:
 * Make sure _Custom Spring Authorization Server_ is running correctly
 * Browse to [localhost:9095/client](http://localhost:9095/client) to start the demo client                  
 
-__Important:__ You can use one of the following users to login:
+__Important:__ You can use one of the following users to log in:
 
 | Username | Email                    | Password | Role  |
 |----------|--------------------------|----------|-------|
@@ -54,7 +54,7 @@ __Important:__ You can use one of the following users to login:
 
 You may use the _username_ or _email_ in the username input field.
 
-If you remain in step 2 for a long time (where you have retrieved the authorization code) then you will
+If you remain in step 2 for a long time (where you have retrieved the authorization code), then you will
 get an error when proceeding to step 3 (exchanging the code for an access token).  
 This is because the authorization code timed out.
 
