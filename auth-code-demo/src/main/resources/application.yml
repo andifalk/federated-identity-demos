@@ -1,7 +1,7 @@
 server:
   servlet:
     context-path: /client
-  port: 9095
+  port: 8080
 
 spring:
   thymeleaf:
@@ -14,25 +14,33 @@ logging:
       springframework:
         web: info
 
+authorization:
+  server:
+    url: http://localhost:9500
+
 democlient:
-  client-id: demo-client
-  redirect-uri: http://localhost:9095/client/callback
+  client-id: demo-client-jwt
+  redirect-uri: http://localhost:8080/client/callback
   pkce: false
   authorization:
-    endpoint: http://localhost:9000/oauth2/authorize
+    endpoint: ${authorization.server.url}/oauth2/authorize
     response-type: code
     scope:
       - openid
       - profile
       - offline_access
   token:
-    endpoint: http://localhost:9000/oauth2/token
-    client-secret: secret
+    endpoint: ${authorization.server.url}/oauth2/token
+    client-secret: demo-client-jwt-secret
   introspection:
-    endpoint: http://localhost:9000/oauth2/introspect
+    endpoint: ${authorization.server.url}/oauth2/introspect
   userinfo:
-    endpoint: http://localhost:9000/userinfo
+    endpoint: ${authorization.server.url}/userinfo
   exchange:
     client-id: demo-client-token-exchange
-    client-secret: secret
+    client-secret: demo-client-token-exchange-secret
     audience: exchanged-token
+    scope:
+      - openid
+      - profile
+      - email

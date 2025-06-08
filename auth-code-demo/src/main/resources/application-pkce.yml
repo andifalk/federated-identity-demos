@@ -1,5 +1,5 @@
 democlient:
-  clientid: demo-client-pkce
+  clientid: demo-client-jwt-pkce
   pkce: true
   token:
     client-secret:

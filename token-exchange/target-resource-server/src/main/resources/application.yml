@@ -6,7 +6,7 @@ spring:
       resourceserver:
         jwt:
           audiences: http://localhost:9092/api/messages
-          jwk-set-uri: http://localhost:9000/oauth2/jwks
+          jwk-set-uri: http://localhost:9500/oauth2/jwks
 
 server:
   port: 9092

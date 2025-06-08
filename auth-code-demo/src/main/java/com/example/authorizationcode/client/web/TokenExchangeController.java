@@ -1,6 +1,7 @@
 package com.example.authorizationcode.client.web;
 
 import com.example.authorizationcode.client.config.AuthCodeDemoProperties;
+import com.example.authorizationcode.client.jwt.JsonWebToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.http.MediaType;
@@ -14,6 +15,9 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Controller
 public class TokenExchangeController {
@@ -22,12 +26,13 @@ public class TokenExchangeController {
   private static final String TOKEN_TYPE = "urn:ietf:params:oauth:token-type:access_token";
 
   private final WebClient webClient;
-
+  private final ObjectMapper objectMapper;
   private final AuthCodeDemoProperties authCodeDemoProperties;
 
-  public TokenExchangeController(WebClient webClient, AuthCodeDemoProperties authCodeDemoProperties) {
+  public TokenExchangeController(WebClient webClient, ObjectMapper objectMapper, AuthCodeDemoProperties authCodeDemoProperties) {
     this.webClient = webClient;
-    this.authCodeDemoProperties = authCodeDemoProperties;
+      this.objectMapper = objectMapper;
+      this.authCodeDemoProperties = authCodeDemoProperties;
   }
 
   @GetMapping("/exchange")
@@ -42,7 +47,8 @@ public class TokenExchangeController {
             + "&grant_type=" + TOKEN_EXCHANGE_GRANT
             + (authCodeDemoProperties.getExchange().getAudience() != null ? "&audience=" + authCodeDemoProperties.getExchange().getAudience() : "")
             + "&client_id=" + authCodeDemoProperties.getExchange().getClientId()
-            + "&client_secret=" + authCodeDemoProperties.getExchange().getClientSecret();
+            + "&client_secret=" + authCodeDemoProperties.getExchange().getClientSecret()
+            + "&scope=" + URLEncoder.encode(String.join(" ", authCodeDemoProperties.getExchange().getScope()), UTF_8);
 
     return performTokenExchangeRequest(model, tokenRequestBody);
   }
@@ -61,6 +67,16 @@ public class TokenExchangeController {
             s -> {
               model.addAttribute("exchange_request", "POST " + authCodeDemoProperties.getToken().getEndpoint().toString() + "</br>" + tokenExchangeBody);
               model.addAttribute("access_token", s.getAccess_token());
+                JsonWebToken jwt = new JsonWebToken(objectMapper,  s.getAccess_token());
+                if (jwt.isJwt()) {
+                    model.addAttribute("jwt_header", jwt.getHeader());
+                    model.addAttribute("jwt_payload", jwt.getPayload());
+                    model.addAttribute("jwt_signature", jwt.getSignature());
+                } else {
+                    model.addAttribute("jwt_header", "--");
+                    model.addAttribute("jwt_payload", "--");
+                    model.addAttribute("jwt_signature", "--");
+                }
               model.addAttribute("scope", s.getScope() != null ? s.getScope() : "");
               model.addAttribute("expires_in", s.getExpires_in());
               model.addAttribute("token_type", s.getToken_type());

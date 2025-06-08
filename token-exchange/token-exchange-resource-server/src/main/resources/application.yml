@@ -5,13 +5,13 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:9000/oauth2/jwks
+          jwk-set-uri: http://localhost:9500/oauth2/jwks
       client:
         registration:
           messaging-client-token-exchange:
             provider: spring
-            client-id: token-exchange-client
-            client-secret: exchange_secret
+            client-id: demo-client-token-exchange
+            client-secret: demo-client-token-exchange-secret
             authorization-grant-type: urn:ietf:params:oauth:grant-type:token-exchange
             scope:
               - message.read
@@ -20,7 +20,7 @@ spring:
             client-name: messaging-client-token-exchange
         provider:
           spring:
-            issuer-uri: http://localhost:9000
+            issuer-uri: http://localhost:9500
 
 server:
   port: 9091

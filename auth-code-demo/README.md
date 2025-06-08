@@ -42,7 +42,7 @@ token is still valid and get a new access token by using the refresh token.
 To start the demo:
 
 * Make sure _Custom Spring Authorization Server_ is running correctly
-* Browse to [localhost:9095/client](http://localhost:9095/client) to start the demo client                  
+* Browse to [localhost:8080/client](http://localhost:8080/client) to start the demo client                  
 
 __Important:__ You can use one of the following users to log in:
 

@@ -1,5 +1,7 @@
 package com.example.authorizationcode.client.jwt;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.commons.lang3.StringUtils;
@@ -20,8 +22,10 @@ public class JsonWebToken {
   private String base64Header;
   private String base64Payload;
   private String signature;
+  private ObjectMapper mapper;
 
-  public JsonWebToken(String token) {
+  public JsonWebToken(ObjectMapper objectMapper, String token) {
+    this.mapper = objectMapper;
     String[] splitToken = token.split("\\.");
     if (splitToken.length == 3) {
       base64Header = splitToken[0];
@@ -40,13 +44,16 @@ public class JsonWebToken {
   }
 
   public String getHeader() {
-    return new String(Base64.getDecoder().decode(base64Header), UTF_8);
+    String raw_json = new String(Base64.getDecoder().decode(base64Header), UTF_8);
+    try {
+      return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mapper.readValue(raw_json, Object.class));
+    } catch (IOException e) {
+      return raw_json;
+    }
   }
 
   public String getPayload() {
     String raw_json = new String(Base64.getDecoder().decode(base64Payload), UTF_8);
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
     try {
       return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mapper.readValue(raw_json, Object.class));
     } catch (IOException e) {
