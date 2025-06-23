@@ -47,6 +47,7 @@
         <module>token-exchange/token-exchange-client</module>
         <module>token-exchange/token-exchange-resource-server</module>
         <module>token-exchange/target-resource-server</module>
+        <module>dpop/dpop-resource-server</module>
     </modules>
 
     <repositories>

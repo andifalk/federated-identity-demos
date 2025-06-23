@@ -27,6 +27,7 @@
             <li th:text="'authorization-code: ' + ${code}"></li>
             <li th:text="'state: ' + ${state}"></li>
             <li th:text="'code_verifier: ' + ${code_verifier}"></li>
+            <li th:text="'DPoP Proof JWT: ' + ${dpop_jwt}"></li>
         </ul>
     </div>
     <hr>
@@ -35,7 +36,7 @@
 
         <p th:utext="${gen_token_request}"></p>
 
-        <a class="btn btn-primary" role="button" th:href="@{'/tokenrequest?code=' + ${code} + '&state=' + ${state}}"
+        <a class="btn btn-primary" role="button" th:href="@{'/tokenrequest?code=' + ${code} + '&state=' + ${state} + '&dpop=' + ${dpop_jwt}}"
            href="#">Request Token</a>
     </div>
 </div>

@@ -1,6 +1,7 @@
 package com.example.authorizationcode.client.web;
 
 import com.example.authorizationcode.client.config.AuthCodeDemoProperties;
+import com.example.authorizationcode.client.dpop.DpopProofTokenCreator;
 import com.example.authorizationcode.client.jwt.JsonWebToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
@@ -22,7 +23,11 @@ public class TokenRequestController {
     private final AuthCodeDemoProperties authCodeDemoProperties;
     private final ObjectMapper objectMapper;
 
-    public TokenRequestController(WebClient webClient, ProofKeyForCodeExchange proofKeyForCodeExchange, AuthCodeDemoProperties authCodeDemoProperties, ObjectMapper objectMapper) {
+    public TokenRequestController(
+            WebClient webClient,
+            ProofKeyForCodeExchange proofKeyForCodeExchange,
+            AuthCodeDemoProperties authCodeDemoProperties,
+            ObjectMapper objectMapper, DpopProofTokenCreator dpopProofTokenCreator) {
         this.webClient = webClient;
         this.proofKeyForCodeExchange = proofKeyForCodeExchange;
         this.authCodeDemoProperties = authCodeDemoProperties;
@@ -31,7 +36,7 @@ public class TokenRequestController {
 
     @GetMapping("/tokenrequest")
     public Mono<String> tokenRequest(
-            @RequestParam("code") String code, @RequestParam("state") String state, Model model)
+            @RequestParam("code") String code, @RequestParam("state") String state, @RequestParam("dpop") String dpopJwt, Model model)
             throws URISyntaxException {
         model.addAttribute("token_endpoint", authCodeDemoProperties.getToken().getEndpoint().toString());
         model.addAttribute("code_verifier", proofKeyForCodeExchange.getCodeVerifier() != null ?
@@ -49,7 +54,7 @@ public class TokenRequestController {
                         + (authCodeDemoProperties.isPkce() ? "&code_verifier=" + proofKeyForCodeExchange.getCodeVerifier() : "&client_secret="
                             + authCodeDemoProperties.getToken().getClientSecret());
 
-        return performTokenRequest(model, tokenRequestBody)
+        return performTokenRequest(model, tokenRequestBody, dpopJwt)
                 .map(
                         r -> {
                             if (r) {
@@ -72,7 +77,7 @@ public class TokenRequestController {
                         + (authCodeDemoProperties.getToken().getClientSecret() != null ? "&client_secret="
                             + authCodeDemoProperties.getToken().getClientSecret(): "");
 
-        return performTokenRequest(model, tokenRequestBody)
+        return performTokenRequest(model, tokenRequestBody, null)
                 .map(
                         r -> {
                             if (r) {
@@ -83,11 +88,14 @@ public class TokenRequestController {
                         });
     }
 
-    private Mono<Boolean> performTokenRequest(Model model, String tokenRequestBody)
+    private Mono<Boolean> performTokenRequest(Model model, String tokenRequestBody, String dpopJwt)
             throws URISyntaxException {
         return webClient
                 .post()
                 .uri(authCodeDemoProperties.getToken().getEndpoint().toURI())
+                .headers(httpHeaders -> {
+                    if (dpopJwt != null) { httpHeaders.add("DPoP", dpopJwt); }
+                })
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(tokenRequestBody), String.class)

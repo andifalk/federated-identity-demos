@@ -21,6 +21,9 @@ public class AuthCodeDemoProperties {
     @NotNull
     private Boolean pkce;
 
+    @NotNull
+    private Boolean dpop;
+
     @Valid
     private Authorization authorization;
 
@@ -58,6 +61,14 @@ public class AuthCodeDemoProperties {
 
     public void setPkce(boolean pkce) {
         this.pkce = pkce;
+    }
+
+    public Boolean isDpop() {
+        return dpop;
+    }
+
+    public void setDpop(Boolean dpop) {
+        this.dpop = dpop;
     }
 
     public Authorization getAuthorization() {
@@ -106,6 +117,7 @@ public class AuthCodeDemoProperties {
                 "clientId='" + clientId + '\'' +
                 ", redirectUri=" + redirectUri +
                 ", pkce=" + pkce +
+                ", dpop=" + dpop +
                 ", authorization=" + authorization +
                 ", token=" + token +
                 ", introspection=" + introspection +

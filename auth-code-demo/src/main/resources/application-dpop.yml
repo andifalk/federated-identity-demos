@@ -1,0 +1,6 @@
+democlient:
+  clientid: demo-client-jwt-pkce
+  pkce: true
+  dpop: true
+  token:
+    client-secret:
