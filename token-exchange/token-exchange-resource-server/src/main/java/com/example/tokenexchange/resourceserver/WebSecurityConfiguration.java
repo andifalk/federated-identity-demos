@@ -1,5 +1,6 @@
 package com.example.tokenexchange.resourceserver;
 
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -15,12 +16,23 @@ import org.springframework.security.oauth2.client.endpoint.TokenExchangeGrantReq
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtValidators;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestClient;
+
+import java.util.List;
 
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfiguration {
+
+    private final OAuth2ResourceServerProperties properties;
+
+    public WebSecurityConfiguration(OAuth2ResourceServerProperties properties) {
+        this.properties = properties;
+    }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,6 +43,20 @@ public class WebSecurityConfiguration {
                 .oauth2ResourceServer(r -> r.jwt(Customizer.withDefaults()))
                 .oauth2Client(Customizer.withDefaults());
         return http.build();
+    }
+
+    @Bean
+    JwtDecoder jwtDecoder() {
+        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder
+                .withJwkSetUri(properties.getJwt().getJwkSetUri())
+                .validateType(false).build();
+        jwtDecoder.setJwtValidator(JwtValidators.createDefaultWithValidators(
+                List.of(
+                        JwtValidators.createAtJwtValidator()
+                                .audience("demo-client-jwt-pkce")
+                                .clientId("demo-client-jwt-pkce")
+                                .issuer("http://localhost:9500").build())));
+        return jwtDecoder;
     }
 
     @Bean
