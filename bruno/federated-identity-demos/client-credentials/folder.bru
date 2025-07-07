@@ -1,0 +1,23 @@
+meta {
+  name: client-credentials
+  seq: 5
+}
+
+auth {
+  mode: oauth2
+}
+
+auth:oauth2 {
+  grant_type: client_credentials
+  access_token_url: {{token-endpoint}}
+  refresh_token_url: 
+  client_id: {{client-credentials-client-id}}
+  client_secret: {{client-credentials-client-secret}}
+  scope: openid
+  credentials_placement: body
+  credentials_id: client-credentials
+  token_placement: header
+  token_header_prefix: Bearer
+  auto_fetch_token: true
+  auto_refresh_token: false
+}

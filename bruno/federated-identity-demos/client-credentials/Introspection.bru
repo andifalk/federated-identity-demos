@@ -1,0 +1,20 @@
+meta {
+  name: Introspection
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{introspection-endpoint}}
+  body: formUrlEncoded
+  auth: basic
+}
+
+auth:basic {
+  username: {{client-credentials-client-id}}
+  password: {{client-credentials-client-secret}}
+}
+
+body:form-urlencoded {
+  token: {{$oauth2.client-credentials.access_token}}
+}

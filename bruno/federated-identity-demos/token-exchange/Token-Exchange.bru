@@ -1,0 +1,27 @@
+meta {
+  name: Token-Exchange
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{token-endpoint}}
+  body: formUrlEncoded
+  auth: basic
+}
+
+auth:basic {
+  username: {{exchange-client-id}}
+  password: {{exchange-client-secret}}
+}
+
+body:form-urlencoded {
+  grant_type: urn:ietf:params:oauth:grant-type:token-exchange
+  subject_token: {{$oauth2.token-exchange.access_token}}
+  subject_token_type: urn:ietf:params:oauth:token-type:access_token
+  requested_token_type: urn:ietf:params:oauth:token-type:access_token
+}
+
+script:post-response {
+  bru.setEnvVar("exchange-token", res.body.access_token);
+}
