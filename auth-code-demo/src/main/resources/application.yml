@@ -36,6 +36,8 @@ democlient:
     endpoint: ${authorization.server.url}/oauth2/introspect
   userinfo:
     endpoint: ${authorization.server.url}/userinfo
+  resource:
+    endpoint: http://localhost:9090/api/messages
   exchange:
     client-id: demo-client-token-exchange
     client-secret: demo-client-token-exchange-secret

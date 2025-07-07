@@ -39,6 +39,9 @@ public class AuthCodeDemoProperties {
     @Valid
     private Exchange exchange;
 
+    @Valid
+    private Resource resource;
+
     public String getClientId() {
         return clientId;
     }
@@ -111,6 +114,14 @@ public class AuthCodeDemoProperties {
         this.exchange = exchange;
     }
 
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+
     @Override
     public String toString() {
         return "AuthCodeDemoProperties{" +
@@ -123,6 +134,7 @@ public class AuthCodeDemoProperties {
                 ", introspection=" + introspection +
                 ", userinfo=" + userInfo +
                 ", exchange=" + exchange +
+                ", resource=" + resource +
                 '}';
     }
 
@@ -141,6 +153,26 @@ public class AuthCodeDemoProperties {
         @Override
         public String toString() {
             return "UserInfo{" +
+                    "endpoint=" + endpoint +
+                    '}';
+        }
+    }
+
+    public static class Resource {
+        @NotNull
+        private URL endpoint;
+
+        public URL getEndpoint() {
+            return endpoint;
+        }
+
+        public void setEndpoint(URL endpoint) {
+            this.endpoint = endpoint;
+        }
+
+        @Override
+        public String toString() {
+            return "Resource{" +
                     "endpoint=" + endpoint +
                     '}';
         }

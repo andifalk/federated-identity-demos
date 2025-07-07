@@ -19,21 +19,23 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * */
 public class JsonWebToken {
 
-  private String base64Header;
-  private String base64Payload;
-  private String signature;
-  private ObjectMapper mapper;
+  private String base64Header = "";
+  private String base64Payload = "";
+  private String signature = "";
+  private final ObjectMapper mapper;
 
   public JsonWebToken(ObjectMapper objectMapper, String token) {
     this.mapper = objectMapper;
-    String[] splitToken = token.split("\\.");
-    if (splitToken.length == 3) {
-      base64Header = splitToken[0];
-      base64Payload = splitToken[1];
-      signature = splitToken[2];
-    } else if (splitToken.length == 2) {
-      base64Header = splitToken[0];
-      base64Payload = splitToken[1];
+    if (token != null) {
+      String[] splitToken = token.split("\\.");
+      if (splitToken.length == 3) {
+        base64Header = splitToken[0];
+        base64Payload = splitToken[1];
+        signature = splitToken[2];
+      } else if (splitToken.length == 2) {
+        base64Header = splitToken[0];
+        base64Payload = splitToken[1];
+      }
     }
   }
 

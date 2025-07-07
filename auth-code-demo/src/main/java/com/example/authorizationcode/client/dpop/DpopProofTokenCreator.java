@@ -42,7 +42,7 @@ public class DpopProofTokenCreator {
     public String createTokenForCall(URI request, String accessToken) throws JOSEException {
         AccessToken accessTokenObj = new BearerAccessToken(accessToken);
         SignedJWT proof = proofFactory.createDPoPJWT(
-                HttpMethod.POST.name(),
+                HttpMethod.GET.name(),
                 request,
                 accessTokenObj);
         return proof.serialize();

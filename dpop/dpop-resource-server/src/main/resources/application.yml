@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: dpop-resource-server
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9500/oauth2/jwks
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
+
+server:
+  port: 9090
