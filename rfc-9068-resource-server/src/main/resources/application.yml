@@ -1,6 +1,6 @@
 spring:
   application:
-    name: dpop-resource-server
+    name: rfc-9068-resource-server
   security:
     oauth2:
       resourceserver:
@@ -10,7 +10,8 @@ logging:
   level:
     org:
       springframework:
-        security: trace
+        security:
+          oauth2: trace
 
 server:
   port: 9090

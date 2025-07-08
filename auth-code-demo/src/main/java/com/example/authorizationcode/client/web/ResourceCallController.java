@@ -23,9 +23,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Controller
 public class ResourceCallController {
 
-  private static final String TOKEN_EXCHANGE_GRANT = "urn:ietf:params:oauth:grant-type:token-exchange";
-  private static final String TOKEN_TYPE = "urn:ietf:params:oauth:token-type:access_token";
-
   private final WebClient webClient;
   private final ObjectMapper objectMapper;
   private final AuthCodeDemoProperties authCodeDemoProperties;

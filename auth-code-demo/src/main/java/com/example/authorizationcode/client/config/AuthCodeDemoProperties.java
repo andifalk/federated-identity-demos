@@ -19,10 +19,10 @@ public class AuthCodeDemoProperties {
     private URL redirectUri;
 
     @NotNull
-    private Boolean pkce;
+    private Boolean pkce = false;
 
     @NotNull
-    private Boolean dpop;
+    private Boolean dpop = false;
 
     @Valid
     private Authorization authorization;
