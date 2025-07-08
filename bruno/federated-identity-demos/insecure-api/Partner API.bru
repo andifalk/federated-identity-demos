@@ -1,0 +1,19 @@
+meta {
+  name: Partner API
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:9090/api/v1/partner
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: */*
+}
+
+auth:bearer {
+  token: {{insecure-token}}
+}
