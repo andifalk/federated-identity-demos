@@ -33,3 +33,4 @@ Finally try to brute force the JWT to find out the secret for signing a JWT usin
 
 The secrets list was just grabbed from https://github.com/wallarm/jwt-secrets.
 
+If you want to learn more about API Security (beyond JWTs) then look into the corresponding [API-Security GitHub Repo](https://github.com/andifalk/api-security).
