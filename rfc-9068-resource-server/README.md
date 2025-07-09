@@ -1,28 +1,23 @@
 # RCF 9068 compliant Resource Server
 
+This resource server is implemented using [Spring Security]() and uses the recently 
+provided validator `org.springframework.security.oauth2.jwt.AtJwtBuilder` that validates a JWT 
+according to the [RFC 9068](https://datatracker.ietf.org/doc/rfc9068/) specifying a JWT profile for OAuth 2.0 Access Tokens.
+
+Usually the following parts of a JWT are validated:
+* Issuer
+* Signature
+* Expiration date/time
+
+The RFC 9068 validator extends this to
+* Validating that the _typ_ header entry is set to `at+jwt`
+* Validation of the _aud_ and _client_id_ claims
+
 ### Reference Documentation
 
 For further reference, please consider the following sections:
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.5.3/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.5.3/maven-plugin/build-image.html)
 * [OAuth2 Resource Server](https://docs.spring.io/spring-boot/3.5.3/reference/web/spring-security.html#web.security.oauth2.server)
-* [Spring Web](https://docs.spring.io/spring-boot/3.5.3/reference/web/servlet.html)
+* [JWT Profile for OAuth 2.0 Access Tokens (RFC 9068)](https://datatracker.ietf.org/doc/rfc9068/)
 
-### Guides
-
-The following guides illustrate how to use some features concretely:
-
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-
-### Maven Parent overrides
-
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the
-parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
 
