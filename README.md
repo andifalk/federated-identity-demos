@@ -29,3 +29,23 @@ This repository contains various demonstrations for Federated Identities like OA
 ## Bruno API Collection
 
 To test the provided APIs with OAuth2/OIDC and JWTs you may use the provided [Bruno]() collection located in folder `bruno/federated-identity-demos`.
+
+## Comparison of OpenID Connect Providers and OAuth 2.x RFC Support
+
+| Provider                        | OAuth 2.1 (Draft) | PKCE (RFC 7636) | RFC 9126 (OAuth Security BCP) | RFC 8705 (Mutual TLS)          | RFC 9449 (DPoP) | RFC 8725 (JWT BCP) | RFC 9068 (JWT Profile for Access Tokens) | RFC 8693 (Token Exchange)   |
+|---------------------------------|-------------------|-----------------|-------------------------------|--------------------------------|-----------------|--------------------|------------------------------------------|-----------------------------|
+| **Auth0**                       | ✅ Partial         | ✅               | ✅ Partial                     | 🔶 Enterprise Add-on           | ✅ (Beta)        | ✅                  | 🔶 (Experimental)                        | 🔶 (Beta via Rules/Hooks)   |
+| **Azure AD**                    | ✅ Partial         | ✅               | ✅                             | 🔶 Confidential Client + Certs | ❌               | ✅                  | ❌                                        | 🔶 (Entra ID - Limited)     |
+| **Google Identity**             | ✅ Partial         | ✅               | ✅ Partial                     | ❌                              | ❌               | ✅                  | ❌                                        | ❌                           |
+| **Okta**                        | ✅ Partial         | ✅               | ✅                             | ✅ (with Workflows)             | ✅ (Preview)     | ✅                  | 🔶 (Preview for APIs)                    | 🔶 (Some API Gateways only) |
+| **Keycloak**                    | ✅ (v24+)          | ✅               | ✅                             | ✅                              | ✅ (v24+)        | ✅                  | ✅ (via config)                           | ✅ (via Identity Brokering)  |
+| **ForgeRock**                   | ✅                 | ✅               | ✅                             | ✅                              | ✅               | ✅                  | ✅                                        | ✅                           |
+| **Ping Identity**               | ✅                 | ✅               | ✅                             | ✅                              | ✅               | ✅                  | ✅                                        | ✅                           |
+| **Curity**                      | ✅                 | ✅               | ✅                             | ✅                              | ✅               | ✅                  | ✅                                        | ✅                           |
+| **AWS Cognito**                 | 🔶 Limited        | ✅               | 🔶 Partial                    | ❌                              | ❌               | ✅                  | ❌                                        | ❌                           |
+| **Spring Authorization Server** | ✅                 | ✅               | ✅                             | ✅                              | ✅               | ✅                  | ✅                                        | ✅                           |
+
+### Legend:
+- ✅ = Fully supported
+- 🔶 = Partially supported / Preview / Requires configuration or specific SKU
+- ❌ = Not supported or not documented
