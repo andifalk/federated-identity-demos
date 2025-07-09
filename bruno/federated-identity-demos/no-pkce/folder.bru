@@ -4,5 +4,24 @@ meta {
 }
 
 auth {
-  mode: inherit
+  mode: oauth2
+}
+
+auth:oauth2 {
+  grant_type: authorization_code
+  callback_url: http://localhost:8080/client
+  authorization_url: {{authzorization-endpoint}}
+  access_token_url: {{token-endpoint}}
+  refresh_token_url: 
+  client_id: {{client-id-no-pkce}}
+  client_secret: {{client-secret-no-pkce}}
+  scope: openid profile email
+  state: 11212wewewewewewewew
+  pkce: false
+  credentials_placement: basic_auth_header
+  credentials_id: jwt-no-pkce
+  token_placement: header
+  token_header_prefix: Bearer
+  auto_fetch_token: true
+  auto_refresh_token: false
 }
